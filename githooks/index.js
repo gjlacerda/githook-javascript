@@ -1,9 +1,11 @@
 const sh = require('shelljs');
 
-const colorRed = '$(tput setaf 1)'
+const colorRed = '\033[0;31m';
+const noColor = '\033[0m';
 const {stdout} = sh.exec('git log --branches --not --remotes --oneline --name-only', {silent: true});
 
+// Githook to prevent changing index.js
 if (stdout.includes('index.js')) {
-    sh.message(`${colorRed}You can't change index.js file`);
+    sh.echo(`${colorRed}You can't change index.js file${noColor}`);
     sh.exit(1);
 }
